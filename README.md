@@ -2,34 +2,34 @@
 
 ---
 
-## MỤC LỤC
+## TABLE OF CONTENTS
 
-1. [Giới thiệu & Mục tiêu](#giới-thiệu--mục-tiêu)
-2. [Kiến trúc tổng thể & Workflow](#kiến-trúc-tổng-thể--workflow)
-3. [Cấu trúc thư mục & Ý nghĩa các file](#cấu-trúc-thư-mục--ý-nghĩa-các-file)
-4. [Cài đặt môi trường & Chuẩn bị phần cứng](#cài-đặt-môi-trường--chuẩn-bị-phần-cứng)
-5. [Chuẩn bị dữ liệu & Xử lý lỗi dữ liệu](#chuẩn-bị-dữ-liệu--xử-lý-lỗi-dữ-liệu)
-6. [Hướng dẫn sử dụng cho người dùng cuối](#hướng-dẫn-sử-dụng-cho-người-dùng-cuối)
-7. [Hướng dẫn cho developer & mở rộng](#hướng-dẫn-cho-developer--mở-rộng)
-8. [Giải thích chi tiết từng file & luồng xử lý](#giải-thích-chi-tiết-từng-file--luồng-xử-lý)
-   - [constants.py](#constants.py)
-   - [data_collector.py](#data_collector.py)
-   - [train_model.py](#train_model.py)
-   - [test_model.py](#test_model.py)
-   - [01_setup.bat](#01_setup.bat)
-   - [02_run_train.bat](#02_run_train.bat)
-   - [03_run_test.bat](#03_run_test.bat)
-   - [requirements.txt](#requirements.txt)
-9. [Quy trình huấn luyện, kiểm tra & báo cáo kết quả](#quy-trình-huấn-luyện-kiểm-tra--báo-cáo-kết-quả)
-10. [Ví dụ đầu ra, log, confusion matrix, sample prediction](#ví-dụ-đầu-ra-log-confusion-matrix-sample-prediction)
-11. [Troubleshooting & Performance tuning](#troubleshooting--performance-tuning)
-12. [Best practices & Quản lý môi trường](#best-practices--quản-lý-môi-trường)
-13. [Tài liệu tham khảo, liên hệ, đóng góp](#tài-liệu-tham-khảo-liên-hệ-đóng-góp)
-14. [Sơ đồ chi tiết các luồng xử lý trong code](#sơ-đồ-chi-tiết-các-luồng-xử-lý-trong-code)
+1. [Introduction & Objectives](#1-introduction-objectives)
+2. [Overall Architecture & Workflow](#2-overall-architecture-workflow)
+3. [Directory Structure & File Meanings](#3-directory-structure-file-meanings)
+4. [Environment Setup & Hardware Preparation](#4-environment-setup-hardware-preparation)
+5. [Data Preparation & Error Handling](#5-data-preparation-error-handling)
+6. [End User Usage Guide](#6-end-user-usage-guide)
+7. [Developer Guide & Extensions](#7-developer-guide-extensions)
+8. [Detailed File Explanations & Processing Flows](#8-detailed-file-explanations-processing-flows)
+    - [constants.py](#constants.py)
+    - [data_collector.py](#data_collector.py)
+    - [train_model.py](#train_model.py)
+    - [test_model.py](#test_model.py)
+    - [01_setup.bat](#01_setup.bat)
+    - [02_run_train.bat](#02_run_train.bat)
+    - [03_run_test.bat](#03_run_test.bat)
+    - [requirements.txt](#requirements.txt)
+9. [Training, Testing & Result Reporting Process](#9-training-testing-result-reporting-process)
+10. [Example Outputs, Logs, Confusion Matrix, Sample Prediction](#10-example-outputs-logs-confusion-matrix-sample-prediction)
+11. [Troubleshooting & Performance Tuning](#11-troubleshooting-performance-tuning)
+12. [Best Practices & Environment Management](#12-best-practices-environment-management)
+13. [References, Contact, Contributions](#13-references-contact-contributions)
+14. [Detailed Code Flow Diagrams](#14-detailed-code-flow-diagrams)
 
 ---
 
-## 1. GIỚI THIỆU & MỤC TIÊU
+## 1. Introduction & Objectives
 
 ### Giới thiệu
 
@@ -49,7 +49,7 @@ Mục tiêu chính là tạo ra một công cụ dễ sử dụng nhưng mạnh 
 
 ---
 
-## 2. KIẾN TRÚC TỔNG THỂ & WORKFLOW
+## 2. Overall Architecture & Workflow
 
 ### Sơ đồ tổng quan
 
@@ -77,7 +77,7 @@ Luồng xử lý được thiết kế để tự động hóa tối đa, từ v
 
 ---
 
-## 3. CẤU TRÚC THƯ MỤC & Ý NGHĨA CÁC FILE
+## 3. Directory Structure & File Meanings
 
 ```text
 ttnt/
@@ -126,7 +126,7 @@ Cấu trúc thư mục được thiết kế để dễ quản lý và mở rộ
 
 ---
 
-## 4. CÀI ĐẶT MÔI TRƯỜNG & CHUẨN BỊ PHẦN CỨNG
+## 4. Environment Setup & Hardware Preparation
 
 ### Yêu cầu phần cứng
 
@@ -162,7 +162,7 @@ Cấu trúc thư mục được thiết kế để dễ quản lý và mở rộ
 
 ---
 
-## 5. CHUẨN BỊ DỮ LIỆU & XỬ LÝ LỖI DỮ LIỆU
+## 5. Data Preparation & Error Handling
 
 ### Kiểm tra dữ liệu đã chia
 
@@ -183,7 +183,7 @@ Cấu trúc thư mục được thiết kế để dễ quản lý và mở rộ
 
 ---
 
-## 6. HƯỚNG DẪN SỬ DỤNG CHO NGƯỜI DÙNG CUỐI
+## 6. End User Usage Guide
 
 ### Huấn luyện mô hình
 
@@ -205,7 +205,7 @@ Cấu trúc thư mục được thiết kế để dễ quản lý và mở rộ
 
 ---
 
-## 7. HƯỚNG DẪN CHO DEVELOPER & MỞ RỘNG
+## 7. Developer Guide & Extensions
 
 ### Chỉnh sửa code, cấu trúc thư mục, chia lại dữ liệu
 
@@ -233,7 +233,7 @@ Cấu trúc thư mục được thiết kế để dễ quản lý và mở rộ
 
 ---
 
-## 8. GIẢI THÍCH CHI TIẾT TỪNG FILE & LUỒNG XỬ LÝ
+## 8. Detailed File Explanations & Processing Flows
 
 ### constants.py
 
@@ -852,7 +852,7 @@ Giải thích chi tiết:
 
 ---
 
-## 9. QUY TRÌNH HUẤN LUYỆN, KIỂM TRA & BÁO CÁO KẾT QUẢ
+## 9. Training, Testing & Result Reporting Process
 
 ### Tiền xử lý dữ liệu
 
@@ -877,7 +877,7 @@ Giải thích chi tiết:
 
 ---
 
-## 10. VÍ DỤ ĐẦU RA, LOG, CONFUSION MATRIX, SAMPLE PREDICTION
+## 10. Example Outputs, Logs, Confusion Matrix, Sample Prediction
 
 ### Ví dụ log huấn luyện
 
@@ -911,7 +911,7 @@ File: test/Cubism/img_002.jpg  | True: Cubism  | Pred: Expressionism | Prob: 0.6
 
 ---
 
-## 11. TROUBLESHOOTING & PERFORMANCE TUNING
+## 11. Troubleshooting & Performance Tuning
 
 ### Lỗi thường gặp
 
@@ -938,7 +938,7 @@ File: test/Cubism/img_002.jpg  | True: Cubism  | Pred: Expressionism | Prob: 0.6
 
 ---
 
-## 12. BEST PRACTICES & QUẢN LÝ MÔI TRƯỜNG
+## 12. Best Practices & Environment Management
 
 - Luôn sử dụng môi trường ảo (venv) cho từng project
 - Quản lý version code bằng git, commit thường xuyên
@@ -951,7 +951,7 @@ File: test/Cubism/img_002.jpg  | True: Cubism  | Pred: Expressionism | Prob: 0.6
 
 ---
 
-## 13. TÀI LIỆU THAM KHẢO, LIÊN HỆ, ĐÓNG GÓP
+## 13. References, Contact, Contributions
 
 - [Google Drive data](https://drive.google.com/file/d/10FkuSbGvZTCURyoKs_JEbBUnFgDFL102/view?usp=sharing)
 - [Video cài Python](https://www.youtube.com/watch?v=W99c8zVOkkg)
@@ -968,7 +968,7 @@ File: test/Cubism/img_002.jpg  | True: Cubism  | Pred: Expressionism | Prob: 0.6
 
 ---
 
-## 14. SƠ ĐỒ CHI TIẾT CÁC LUỒNG XỬ LÝ TRONG CODE
+## 14. Detailed Code Flow Diagrams
 
 ### 1. Sơ đồ tổng quan Pipeline Huấn luyện (Training Pipeline Diagram)
 
