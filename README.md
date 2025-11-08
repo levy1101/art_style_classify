@@ -29,6 +29,7 @@
 
 ---
 
+<a id="1-introduction-objectives"></a>
 ## 1. Introduction & Objectives
 
 ### Giới thiệu
@@ -49,6 +50,7 @@ Mục tiêu chính là tạo ra một công cụ dễ sử dụng nhưng mạnh 
 
 ---
 
+<a id="2-overall-architecture-workflow"></a>
 ## 2. Overall Architecture & Workflow
 
 ### Sơ đồ tổng quan
@@ -77,6 +79,7 @@ Luồng xử lý được thiết kế để tự động hóa tối đa, từ v
 
 ---
 
+<a id="3-directory-structure-file-meanings"></a>
 ## 3. Directory Structure & File Meanings
 
 ```text
@@ -126,6 +129,7 @@ Cấu trúc thư mục được thiết kế để dễ quản lý và mở rộ
 
 ---
 
+<a id="4-environment-setup-hardware-preparation"></a>
 ## 4. Environment Setup & Hardware Preparation
 
 ### Yêu cầu phần cứng
@@ -162,6 +166,7 @@ Cấu trúc thư mục được thiết kế để dễ quản lý và mở rộ
 
 ---
 
+<a id="5-data-preparation-error-handling"></a>
 ## 5. Data Preparation & Error Handling
 
 ### Kiểm tra dữ liệu đã chia
@@ -183,6 +188,7 @@ Cấu trúc thư mục được thiết kế để dễ quản lý và mở rộ
 
 ---
 
+<a id="6-end-user-usage-guide"></a>
 ## 6. End User Usage Guide
 
 ### Huấn luyện mô hình
@@ -205,6 +211,7 @@ Cấu trúc thư mục được thiết kế để dễ quản lý và mở rộ
 
 ---
 
+<a id="7-developer-guide-extensions"></a>
 ## 7. Developer Guide & Extensions
 
 ### Chỉnh sửa code, cấu trúc thư mục, chia lại dữ liệu
@@ -233,6 +240,7 @@ Cấu trúc thư mục được thiết kế để dễ quản lý và mở rộ
 
 ---
 
+<a id="8-detailed-file-explanations-processing-flows"></a>
 ## 8. Detailed File Explanations & Processing Flows
 
 ### constants.py
@@ -852,6 +860,7 @@ Giải thích chi tiết:
 
 ---
 
+<a id="9-training-testing-result-reporting-process"></a>
 ## 9. Training, Testing & Result Reporting Process
 
 ### Tiền xử lý dữ liệu
@@ -877,6 +886,7 @@ Giải thích chi tiết:
 
 ---
 
+<a id="10-example-outputs-logs-confusion-matrix-sample-prediction"></a>
 ## 10. Example Outputs, Logs, Confusion Matrix, Sample Prediction
 
 ### Ví dụ log huấn luyện
@@ -911,6 +921,7 @@ File: test/Cubism/img_002.jpg  | True: Cubism  | Pred: Expressionism | Prob: 0.6
 
 ---
 
+<a id="11-troubleshooting-performance-tuning"></a>
 ## 11. Troubleshooting & Performance Tuning
 
 ### Lỗi thường gặp
@@ -938,6 +949,7 @@ File: test/Cubism/img_002.jpg  | True: Cubism  | Pred: Expressionism | Prob: 0.6
 
 ---
 
+<a id="12-best-practices-environment-management"></a>
 ## 12. Best Practices & Environment Management
 
 - Luôn sử dụng môi trường ảo (venv) cho từng project
@@ -951,6 +963,7 @@ File: test/Cubism/img_002.jpg  | True: Cubism  | Pred: Expressionism | Prob: 0.6
 
 ---
 
+<a id="13-references-contact-contributions"></a>
 ## 13. References, Contact, Contributions
 
 - [Google Drive data](https://drive.google.com/file/d/10FkuSbGvZTCURyoKs_JEbBUnFgDFL102/view?usp=sharing)
@@ -968,6 +981,7 @@ File: test/Cubism/img_002.jpg  | True: Cubism  | Pred: Expressionism | Prob: 0.6
 
 ---
 
+<a id="14-detailed-code-flow-diagrams"></a>
 ## 14. Detailed Code Flow Diagrams
 
 ### 1. Sơ đồ tổng quan Pipeline Huấn luyện (Training Pipeline Diagram)
