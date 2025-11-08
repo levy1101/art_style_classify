@@ -2,16 +2,16 @@
 
 ---
 
-## TABLE OF CONTENTS
+## MỤC LỤC
 
-1. [Introduction & Objectives](#1-introduction-objectives)
-2. [Overall Architecture & Workflow](#2-overall-architecture-workflow)
-3. [Directory Structure & File Meanings](#3-directory-structure-file-meanings)
-4. [Environment Setup & Hardware Preparation](#4-environment-setup-hardware-preparation)
-5. [Data Preparation & Error Handling](#5-data-preparation-error-handling)
-6. [End User Usage Guide](#6-end-user-usage-guide)
-7. [Developer Guide & Extensions](#7-developer-guide-extensions)
-8. [Detailed File Explanations & Processing Flows](#8-detailed-file-explanations-processing-flows)
+1. [GIỚI THIỆU & MỤC TIÊU](#1-introduction-objectives)
+2. [TỔNG QUAN KIẾN TRÚC & LUỒNG XỬ LÝ](#2-overall-architecture-workflow)
+3. [CẤU TRÚC THƯ MỤC & Ý NGHĨA CÁC FILE](#3-directory-structure-file-meanings)
+4. [CÀI ĐẶT MÔI TRƯỜNG & CHUẨN BỊ PHẦN CỨNG](#4-environment-setup-hardware-preparation)
+5. [CHUẨN BỊ DỮ LIỆU & XỬ LÝ LỖI DỮ LIỆU](#5-data-preparation-error-handling)
+6. [HƯỚNG DẪN SỬ DỤNG CHO NGƯỜI DÙNG CUỐI](#6-end-user-usage-guide)
+7. [HƯỚNG DẪN CHO DEVELOPER & MỞ RỘNG](#7-developer-guide-extensions)
+8. [GIẢI THÍCH CHI TIẾT TỪNG FILE & LUỒNG XỬ LÝ](#8-detailed-file-explanations-processing-flows)
     - [constants.py](#constants.py)
     - [data_collector.py](#data_collector.py)
     - [train_model.py](#train_model.py)
@@ -20,17 +20,17 @@
     - [02_run_train.bat](#02_run_train.bat)
     - [03_run_test.bat](#03_run_test.bat)
     - [requirements.txt](#requirements.txt)
-9. [Training, Testing & Result Reporting Process](#9-training-testing-result-reporting-process)
-10. [Example Outputs, Logs, Confusion Matrix, Sample Prediction](#10-example-outputs-logs-confusion-matrix-sample-prediction)
-11. [Troubleshooting & Performance Tuning](#11-troubleshooting-performance-tuning)
-12. [Best Practices & Environment Management](#12-best-practices-environment-management)
-13. [References, Contact, Contributions](#13-references-contact-contributions)
-14. [Detailed Code Flow Diagrams](#14-detailed-code-flow-diagrams)
+9. [QUY TRÌNH HUẤN LUYỆN, KIỂM TRA & BÁO CÁO KẾT QUẢ](#9-training-testing-result-reporting-process)
+10. [VÍ DỤ ĐẦU RA, LOG, CONFUSION MATRIX, SAMPLE PREDICTION](#10-example-outputs-logs-confusion-matrix-sample-prediction)
+11. [TROUBLESHOOTING & PERFORMANCE TUNING](#11-troubleshooting-performance-tuning)
+12. [BEST PRACTICES & QUẢN LÝ MÔI TRƯỜNG](#12-best-practices-environment-management)
+13. [TÀI LIỆU THAM KHẢO, LIÊN HỆ, ĐÓNG GÓP](#13-references-contact-contributions)
+14. [SƠ ĐỒ CHI TIẾT CÁC LUỒNG XỬ LÝ TRONG CODE](#14-detailed-code-flow-diagrams)
 
 ---
 
 <a id="1-introduction-objectives"></a>
-## 1. Introduction & Objectives
+## 1. GIỚI THIỆU & MỤC TIÊU
 
 ### Giới thiệu
 
@@ -51,7 +51,7 @@ Mục tiêu chính là tạo ra một công cụ dễ sử dụng nhưng mạnh 
 ---
 
 <a id="2-overall-architecture-workflow"></a>
-## 2. Overall Architecture & Workflow
+## 2. TỔNG QUAN KIẾN TRÚC & LUỒNG XỬ LÝ
 
 ### Sơ đồ tổng quan
 
@@ -80,7 +80,7 @@ Luồng xử lý được thiết kế để tự động hóa tối đa, từ v
 ---
 
 <a id="3-directory-structure-file-meanings"></a>
-## 3. Directory Structure & File Meanings
+## 3. CẤU TRÚC THƯ MỤC & Ý NGHĨA CÁC FILE
 
 ```text
 ttnt/
@@ -130,7 +130,7 @@ Cấu trúc thư mục được thiết kế để dễ quản lý và mở rộ
 ---
 
 <a id="4-environment-setup-hardware-preparation"></a>
-## 4. Environment Setup & Hardware Preparation
+## 4. CÀI ĐẶT MÔI TRƯỜNG & CHUẨN BỊ PHẦN CỨNG
 
 ### Yêu cầu phần cứng
 
@@ -167,7 +167,7 @@ Cấu trúc thư mục được thiết kế để dễ quản lý và mở rộ
 ---
 
 <a id="5-data-preparation-error-handling"></a>
-## 5. Data Preparation & Error Handling
+## 5. CHUẨN BỊ DỮ LIỆU & XỬ LÝ LỖI DỮ LIỆU
 
 ### Kiểm tra dữ liệu đã chia
 
@@ -189,7 +189,7 @@ Cấu trúc thư mục được thiết kế để dễ quản lý và mở rộ
 ---
 
 <a id="6-end-user-usage-guide"></a>
-## 6. End User Usage Guide
+## 6. HƯỚNG DẪN SỬ DỤNG CHO NGƯỜI DÙNG CUỐI
 
 ### Huấn luyện mô hình
 
@@ -212,7 +212,7 @@ Cấu trúc thư mục được thiết kế để dễ quản lý và mở rộ
 ---
 
 <a id="7-developer-guide-extensions"></a>
-## 7. Developer Guide & Extensions
+## 7. HƯỚNG DẪN CHO DEVELOPER & MỞ RỘNG
 
 ### Chỉnh sửa code, cấu trúc thư mục, chia lại dữ liệu
 
@@ -241,7 +241,7 @@ Cấu trúc thư mục được thiết kế để dễ quản lý và mở rộ
 ---
 
 <a id="8-detailed-file-explanations-processing-flows"></a>
-## 8. Detailed File Explanations & Processing Flows
+## 8. GIẢI THÍCH CHI TIẾT TỪNG FILE & LUỒNG XỬ LÝ
 
 ### constants.py
 
@@ -861,7 +861,7 @@ Giải thích chi tiết:
 ---
 
 <a id="9-training-testing-result-reporting-process"></a>
-## 9. Training, Testing & Result Reporting Process
+## 9. QUY TRÌNH HUẤN LUYỆN, KIỂM TRA & BÁO CÁO KẾT QUẢ
 
 ### Tiền xử lý dữ liệu
 
@@ -887,7 +887,7 @@ Giải thích chi tiết:
 ---
 
 <a id="10-example-outputs-logs-confusion-matrix-sample-prediction"></a>
-## 10. Example Outputs, Logs, Confusion Matrix, Sample Prediction
+## 10. VÍ DỤ ĐẦU RA, LOG, CONFUSION MATRIX, SAMPLE PREDICTION
 
 ### Ví dụ log huấn luyện
 
@@ -922,7 +922,7 @@ File: test/Cubism/img_002.jpg  | True: Cubism  | Pred: Expressionism | Prob: 0.6
 ---
 
 <a id="11-troubleshooting-performance-tuning"></a>
-## 11. Troubleshooting & Performance Tuning
+## 11. TROUBLESHOOTING & PERFORMANCE TUNING
 
 ### Lỗi thường gặp
 
@@ -950,7 +950,7 @@ File: test/Cubism/img_002.jpg  | True: Cubism  | Pred: Expressionism | Prob: 0.6
 ---
 
 <a id="12-best-practices-environment-management"></a>
-## 12. Best Practices & Environment Management
+## 12. BEST PRACTICES & QUẢN LÝ MÔI TRƯỜNG
 
 - Luôn sử dụng môi trường ảo (venv) cho từng project
 - Quản lý version code bằng git, commit thường xuyên
@@ -964,7 +964,7 @@ File: test/Cubism/img_002.jpg  | True: Cubism  | Pred: Expressionism | Prob: 0.6
 ---
 
 <a id="13-references-contact-contributions"></a>
-## 13. References, Contact, Contributions
+## 13. TÀI LIỆU THAM KHẢO, LIÊN HỆ, ĐÓNG GÓP
 
 - [Google Drive data](https://drive.google.com/file/d/10FkuSbGvZTCURyoKs_JEbBUnFgDFL102/view?usp=sharing)
 - [Video cài Python](https://www.youtube.com/watch?v=W99c8zVOkkg)
@@ -982,7 +982,7 @@ File: test/Cubism/img_002.jpg  | True: Cubism  | Pred: Expressionism | Prob: 0.6
 ---
 
 <a id="14-detailed-code-flow-diagrams"></a>
-## 14. Detailed Code Flow Diagrams
+## 14. SƠ ĐỒ CHI TIẾT CÁC LUỒNG XỬ LÝ TRONG CODE
 
 ### 1. Sơ đồ tổng quan Pipeline Huấn luyện (Training Pipeline Diagram)
 
