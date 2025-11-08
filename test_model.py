@@ -15,13 +15,12 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 import tensorflow as tf
-from tensorflow import lite
+from constants import WORKING_BASE_DIR, MODEL_FILENAME, LABELS_FILENAME
 
 # Định nghĩa đường dẫn
-OUTPUT_BASE_DIR = 'D:/Levy/ttnt/kaggle/working/art_styles'
-MODEL_PATH = 'D:/Levy/ttnt/kaggle/working/art_styles/art_style_classifier.h5'
-TFLITE_MODEL_PATH = 'D:/Levy/ttnt/kaggle/working/style_model.tflite'
-LABELS_PATH = 'labels.txt'
+OUTPUT_BASE_DIR = WORKING_BASE_DIR
+MODEL_PATH = os.path.join(OUTPUT_BASE_DIR, MODEL_FILENAME)
+LABELS_PATH = LABELS_FILENAME
 
 # Tải mô hình đã huấn luyện
 print("Đang tải mô hình...")

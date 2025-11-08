@@ -18,6 +18,7 @@ for device in device_lib.list_local_devices():
     print(device)
 import sys
 from datetime import datetime
+from constants import DATA_BASE_DIR, WORKING_BASE_DIR, LOG_DIR, MODEL_FILENAME, STYLE_CLASSES
 
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, MaxPooling2D, Flatten, AveragePooling2D, Dropout, GlobalAveragePooling2D, GlobalMaxPooling2D, BatchNormalization
@@ -47,10 +48,9 @@ from shutil import copyfile
 
 
 # Tạo tên file log theo thời gian
-log_dir = 'D:/Levy/ttnt/app_log'
-os.makedirs(log_dir, exist_ok=True)
+os.makedirs(LOG_DIR, exist_ok=True)
 session_time = datetime.now().strftime('%Y%m%d_%H%M%S')
-log_file = os.path.join(log_dir, f'session_{session_time}.txt')
+log_file = os.path.join(LOG_DIR, f'session_{session_time}.txt')
 
 # Cấu hình logging ra file
 logging.basicConfig(
@@ -76,21 +76,12 @@ class LoggerWriter:
 sys.stdout = LoggerWriter(logging.getLogger(), logging.INFO)
 sys.stderr = LoggerWriter(logging.getLogger(), logging.ERROR)
 
-OUTPUT_BASE_DIR = 'D:/Levy/ttnt/kaggle/working/art_styles'
-
+OUTPUT_BASE_DIR = WORKING_BASE_DIR
 
 try:
     from data_collector import collect_data_if_needed
-    DATA_BASE_DIR = 'D:/Levy/ttnt/kaggle/input'
-    style_dirs = {
-        'Baroque': os.path.join(DATA_BASE_DIR, 'wikiart/Baroque'),
-        'Expressionism': os.path.join(DATA_BASE_DIR, 'wikiart/Expressionism'),
-        'Cubism': os.path.join(DATA_BASE_DIR, 'wikiart/Cubism'),
-        'Japanese_Art': os.path.join(DATA_BASE_DIR, 'wikiart/Japanese_Art'),
-        'Art_Nouveau_Modern': os.path.join(DATA_BASE_DIR, 'wikiart/Art_Nouveau_Modern'),
-    }
-    styles = list(style_dirs.keys())
-    collect_data_if_needed(OUTPUT_BASE_DIR, style_dirs, styles)
+    style_dirs = {style: os.path.join(DATA_BASE_DIR, f'wikiart/{style}') for style in STYLE_CLASSES}
+    collect_data_if_needed(OUTPUT_BASE_DIR, style_dirs, STYLE_CLASSES)
 except ImportError:
     print("Không tìm thấy data_collector, chỉ sử dụng dữ liệu đã chia sẵn.")
 train_gen = ImageDataGenerator(
@@ -164,5 +155,5 @@ result2 = model.fit(
 )
 
 # Lưu mô hình
-model.save(os.path.join(OUTPUT_BASE_DIR, 'art_style_classifier.h5'))
-print(f"Mô hình đã được lưu tại {os.path.join(OUTPUT_BASE_DIR, 'art_style_classifier.h5')}")
+model.save(os.path.join(OUTPUT_BASE_DIR, MODEL_FILENAME))
+print(f"Mô hình đã được lưu tại {os.path.join(OUTPUT_BASE_DIR, MODEL_FILENAME)}")
