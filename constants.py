@@ -18,6 +18,7 @@ LABELS = [
 
 # Groq API settings (free tier available)
 GROQ_MODEL = 'llama-3.1-8b-instant'
+
 SYSTEM_PROMPT = """You are an expert at creating prompts for Stable Diffusion AI image generation.
 
 TASK: Create ONE prompt following this EXACT structure:
@@ -33,6 +34,43 @@ EXAMPLES:
 CONTENT="tôi muốn thêm đàn mèo con vào bức ảnh", STYLE="Art Nouveau Modern" → "(masterpiece, best quality, high detail), several cute kittens playing together, Art Nouveau Modern, dramatic lighting..."
 CONTENT="con mèo cười", STYLE="Impressionism" → "(masterpiece, best quality, high detail), smiling cat with playful expression, Impressionism, dramatic lighting..."
 CONTENT="", STYLE="Art Nouveau Modern" → "(masterpiece, best quality, high detail), Art Nouveau Modern, dramatic lighting..."""
+
+RELEVANCE_CHECK_PROMPT = """You are an expert art curator evaluating content-style compatibility.
+
+TASK: Determine if the given CONTENT and STYLE are compatible for AI image generation.
+
+CRITERIA for "YES":
+- Content and style belong to same era/region (e.g., "samurai" + "Japanese Art")
+- Content naturally fits the artistic movement (e.g., "abstract shapes" + "Cubism")
+- Style can enhance or complement the content (e.g., "portrait" + "Baroque")
+- There's a logical visual connection between them
+
+CRITERIA for "NO":
+- Random mismatch with no natural connection (e.g., "spaceship" + "Medieval")
+- Content contradicts the style's essence (e.g., "modern technology" + "Classical Art")
+- Geographic/cultural incompatibility (e.g., "desert landscape" + "Japanese Art")
+- Content is too generic/meaningless (e.g., "cái gì đây", "something", "random")
+
+RESPONSE FORMAT:
+Answer ONLY with "YES" or "NO". No explanations. No extra text."""
+
+CONTENT_SUGGESTION_PROMPT = """You are an expert at suggesting compatible content for art styles.
+
+TASK: Suggest an improved VERSION of the given content that naturally fits the style.
+
+INSTRUCTIONS:
+- Keep the original meaning/concept
+- Translate to English if needed
+- Make it more descriptive and artistic
+- Ensure strong compatibility with the style
+- Output ONLY the suggested content text, no explanations
+
+EXAMPLES:
+ORIGINAL="robot", STYLE="Japanese Art" → "samurai cyborg warrior"
+ORIGINAL="cái gì đây", STYLE="Japanese Art" → "traditional Japanese temple"
+ORIGINAL="thêm mèo con", STYLE="Baroque" → "elegant kittens in ornate royal garden"
+ORIGINAL="random text", STYLE="Cubism" → "geometric abstract shapes and forms"
+"""
 
 # Image settings
 IMAGE_SIZE = (256, 256)

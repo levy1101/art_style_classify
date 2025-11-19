@@ -128,58 +128,81 @@
                         <input type="radio" class="btn-check" name="mode" id="remixMode" autocomplete="off">
                         <label class="btn btn-outline-primary" for="remixMode">🔄 Style Remix</label>
                     </div>
+                    <button class="btn btn-outline-danger ms-3" onclick="resetAll()">
+                        🔄 Reset
+                    </button>
                 </div>
 
+                <!-- Step 1: Upload ảnh -->
                 <div class="upload-area" id="uploadArea">
                     <div id="uploadContent">
-                        <h4 class="mb-3">📤 Upload ảnh mẫu của bạn</h4>
+                        <h4 class="mb-3">📤 Bước 1: Upload ảnh mẫu</h4>
                         <p class="text-muted mb-3" id="modeDescription">Chọn một bức tranh mà bạn muốn AI vẽ lại theo phong cách đó</p>
                         <input type="file" id="fileInput" accept="image/*" style="display: none;">
                         <button class="btn btn-primary btn-lg" onclick="document.getElementById('fileInput').click()">
                             Chọn ảnh từ thiết bị
                         </button>
-                        <div id="analyzeSection" style="display: none; margin-top: 20px;">
-                            <button class="btn btn-success btn-lg" id="analyzeBtn" onclick="startAnalysis()">
-                                🚀 Bắt đầu phân tích
-                            </button>
-                        </div>
                     </div>
                 </div>
 
-                <!-- Content Input for Remix Mode -->
-                <div id="contentInput" class="mt-3" style="display: none;">
-                    <div class="form-floating">
-                        <textarea class="form-control" placeholder="Nhập nội dung muốn vẽ" id="contentTextarea" style="height: 100px"></textarea>
-                        <label for="contentTextarea">Nội dung muốn vẽ (ví dụ: "con mèo đang ngủ")</label>
-                    </div>
+                <!-- Step 2: Analyze button -->
+                <div id="analyzeSection" style="display: none; margin-top: 20px; text-align: center;">
+                    <button class="btn btn-success btn-lg" id="analyzeBtn" onclick="startAnalysis()">
+                        🚀 Bước 2: Phân tích phong cách
+                    </button>
                 </div>
 
-                <div id="loading" class="text-center" style="display: none;">
+                <!-- Loading indicator -->
+                <div id="loading" class="text-center" style="display: none; margin-top: 30px;">
                     <div class="spinner-border text-primary" role="status">
                         <span class="visually-hidden">Đang phân tích...</span>
                     </div>
                     <p class="mt-2">AI đang phân tích phong cách nghệ thuật...</p>
                 </div>
 
-                <div id="result" class="result-card" style="display: none;">
+                <!-- Step 3: Results - Style and Image -->
+                <div id="resultStyleSection" class="result-card" style="display: none; margin-top: 30px;">
                     <h4 class="text-center mb-4">🎯 Kết quả phân tích</h4>
 
                     <div class="text-center mb-4">
                         <img id="previewImg" class="preview-image" alt="Ảnh preview">
                     </div>
 
-                    <div class="text-center mb-3">
+                    <div class="text-center">
                         <div class="style-badge" id="styleBadge">Đang phân tích...</div>
                         <div class="confidence-score" id="confidenceScore"></div>
                     </div>
+                </div>
 
+                <!-- Step 4: Content Input (Remix mode only) -->
+                <div id="contentInputSection" style="display: none; margin-top: 30px;">
+                    <h5 class="mb-3">📝 Bước 3: Nhập nội dung (Remix Mode)</h5>
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Nhập nội dung muốn vẽ" id="contentTextarea" style="height: 100px" disabled></textarea>
+                        <label for="contentTextarea">Nội dung muốn vẽ (ví dụ: "con mèo đang ngủ")</label>
+                    </div>
+                    <small class="text-muted d-block mt-2">* Gợi ý: Nhập nội dung bạn muốn vẽ, AI sẽ kiểm tra xem có phù hợp với phong cách không</small>
+                    <button class="btn btn-warning mt-3 w-100" id="checkContentBtn" onclick="checkContent()" style="display: none;">
+                        ✓ Bước 4: Kiểm tra nội dung
+                    </button>
+                </div>
+
+                <!-- Step 5: Gen Prompt Button (Remix mode only) -->
+                <div id="genPromptSection" style="display: none; margin-top: 20px; text-align: center;">
+                    <button class="btn btn-success btn-lg" id="genPromptBtn" onclick="generatePrompt()">
+                        ⚡ Bước 5: Tạo Prompt
+                    </button>
+                </div>
+
+                <!-- Step 6: Final Prompt Output -->
+                <div id="resultPromptSection" class="result-card" style="display: none; margin-top: 30px;">
+                    <h4 class="text-center mb-4">✨ Prompt của bạn</h4>
                     <div class="prompt-box">
                         <div class="prompt-text" id="promptText">Đang tạo prompt...</div>
-                        <div class="text-center">
-                            <button class="copy-btn" onclick="copyPrompt()">📋 Copy Prompt</button>
-                        </div>
                     </div>
-
+                    <div class="text-center">
+                        <button class="copy-btn" onclick="copyPrompt()">📋 Copy Prompt</button>
+                    </div>
                     <div class="text-center mt-3">
                         <small class="text-muted">Prompt bao gồm tất cả thông số cho Stable Diffusion</small>
                     </div>
@@ -194,11 +217,147 @@
         </div>
     </div>
 
+    <!-- Modal gợi ý content -->
+    <div id="contentModal" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">💡 Gợi ý nội dung</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="contentModalMessage" class="mb-4"></p>
+                    
+                    <div id="contentOptionDiv" class="mb-3">
+                        <h6 id="contentOptionTitle"></h6>
+                        <div class="alert alert-info p-3 mb-3">
+                            <div id="contentOptionText" style="font-size: 1.1em; font-weight: 500;"></div>
+                        </div>
+                        <button class="btn btn-success btn-sm" onclick="selectContent('suggested')">
+                            ✓ Dùng gợi ý này
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" onclick="reopenContentInput()">
+                        Nhập lại
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal hiển thị lựa chọn prompt -->
+    <div id="promptModal" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">🤔 Chọn phiên bản prompt</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="modalMessage" class="mb-4"></p>
+                    
+                    <div class="prompt-option mb-3">
+                        <h6>📝 Prompt gốc (theo nội dung bạn nhập)</h6>
+                        <div class="prompt-box">
+                            <div class="prompt-text" id="originalPromptText"></div>
+                        </div>
+                        <button class="btn btn-outline-primary btn-sm" onclick="selectPrompt('original')">
+                            Dùng prompt gốc
+                        </button>
+                    </div>
+
+                    <div id="suggestedPromptDiv" class="prompt-option mb-3" style="display: none;">
+                        <h6>✨ Prompt gợi ý (kết nối content + style)</h6>
+                        <div class="prompt-box">
+                            <div class="prompt-text" id="suggestedPromptText"></div>
+                        </div>
+                        <button class="btn btn-success btn-sm" onclick="selectPrompt('suggested')">
+                            Dùng prompt gợi ý
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" onclick="reopenContentInput()">
+                        Nhập lại
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         let selectedFile = null;
         let currentMode = 'hunter'; // Default mode
+        let detectedStyle = null; // Track detected style
+        let contentModal = null;
+        let promptModal = null;
+        let selectedPromptText = null;
 
-        document.getElementById('fileInput').addEventListener('change', function(e) {
+        document.addEventListener('DOMContentLoaded', function() {
+            contentModal = new bootstrap.Modal(document.getElementById('contentModal'), {
+                keyboard: false,
+                backdrop: 'static'
+            });
+            promptModal = new bootstrap.Modal(document.getElementById('promptModal'), {
+                keyboard: false,
+                backdrop: 'static'
+            });
+
+            // Mode switching
+            document.getElementById('hunterMode').addEventListener('change', function() {
+                if (this.checked) {
+                    currentMode = 'hunter';
+                    document.getElementById('modeDescription').textContent = 'Chọn một bức tranh mà bạn muốn AI vẽ lại theo phong cách đó';
+                    resetUI();
+                    document.getElementById('contentInputSection').style.display = 'none';
+                    document.getElementById('genPromptSection').style.display = 'none';
+                    if (detectedStyle) {
+                        generatePromptForStyle(detectedStyle);
+                    }
+                }
+            });
+
+            document.getElementById('remixMode').addEventListener('change', function() {
+                if (this.checked) {
+                    currentMode = 'remix';
+                    document.getElementById('modeDescription').textContent = 'Chọn một bức tranh để xác định phong cách, sau đó nhập nội dung muốn vẽ';
+                    resetUI();
+                    document.getElementById('resultPromptSection').style.display = 'none';
+                    if (detectedStyle) {
+                        document.getElementById('contentInputSection').style.display = 'block';
+                        document.getElementById('checkContentBtn').style.display = 'block';
+                        document.getElementById('contentTextarea').focus();
+                    }
+                }
+            });
+        });
+
+        function resetUI() {
+            document.getElementById('resultStyleSection').style.display = 'none';
+            document.getElementById('contentInputSection').style.display = 'none';
+            document.getElementById('genPromptSection').style.display = 'none';
+            document.getElementById('resultPromptSection').style.display = 'none';
+            document.getElementById('contentTextarea').value = '';
+            detectedStyle = null;
+        }
+
+        function resetAll() {
+            // Clear everything and start over
+            resetUI();
+            selectedFile = null;
+            document.getElementById('fileInput').value = '';
+            document.getElementById('analyzeSection').style.display = 'none';
+            document.getElementById('contentTextarea').disabled = true;
+            document.getElementById('contentTextarea').value = '';
+            document.getElementById('previewImg').src = '';
+            document.getElementById('promptText').textContent = 'Đang tạo prompt...';
+            detectedStyle = null;
+            currentMode = 'hunter';
+            document.getElementById('hunterMode').checked = true;
+            document.getElementById('modeDescription').textContent = 'Chọn một bức tranh mà bạn muốn AI vẽ lại theo phong cách đó';
+        }        document.getElementById('fileInput').addEventListener('change', function(e) {
             selectedFile = e.target.files[0];
             if (selectedFile) {
                 // Preview image
@@ -206,10 +365,8 @@
                 reader.onload = function(e) {
                     const previewImg = document.getElementById('previewImg');
                     previewImg.src = e.target.result;
-                    previewImg.style.display = 'block';
 
-                    // Show result area and analyze button
-                    document.getElementById('result').style.display = 'block';
+                    // Show analyze button
                     document.getElementById('analyzeSection').style.display = 'block';
                 };
                 reader.readAsDataURL(selectedFile);
@@ -260,53 +417,19 @@
 
         function startAnalysis() {
             if (selectedFile) {
-                document.getElementById('loading').style.display = 'block';
-                document.getElementById('analyzeBtn').disabled = true;
-                document.getElementById('analyzeBtn').textContent = 'Đang phân tích...';
                 analyzeImage(selectedFile);
             }
         }
 
-        // Mode switching logic
-        document.addEventListener('DOMContentLoaded', function() {
-            const hunterMode = document.getElementById('hunterMode');
-            const remixMode = document.getElementById('remixMode');
-
-            if (hunterMode) {
-                hunterMode.addEventListener('change', function() {
-                    if (this.checked) {
-                        currentMode = 'hunter';
-                        document.getElementById('modeDescription').textContent = 'Chọn một bức tranh mà bạn muốn AI vẽ lại theo phong cách đó';
-                        document.getElementById('contentInput').style.display = 'none';
-                    }
-                });
-            }
-
-            if (remixMode) {
-                remixMode.addEventListener('change', function() {
-                    if (this.checked) {
-                        currentMode = 'remix';
-                        document.getElementById('modeDescription').textContent = 'Upload ảnh mẫu để lấy phong cách, nhập nội dung mới để kết hợp';
-                        document.getElementById('contentInput').style.display = 'block';
-                    }
-                });
-            }
-        });
-
         async function analyzeImage(file) {
             const formData = new FormData();
             formData.append('file', file);
-            formData.append('mode', currentMode);
 
-            if (currentMode === 'remix') {
-                const content = document.getElementById('contentTextarea').value.trim();
-                if (!content) {
-                    alert('Vui lòng nhập nội dung muốn vẽ cho chế độ Remix');
-                    document.getElementById('loading').style.display = 'none';
-                    return;
-                }
-                formData.append('content', content);
-            }
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('analyzeSection').style.display = 'none';
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            analyzeBtn.disabled = true;
+            analyzeBtn.textContent = 'Đang phân tích...';
 
             try {
                 const response = await fetch('/predict', {
@@ -319,23 +442,220 @@
                 if (result.error) {
                     alert('Lỗi: ' + result.error);
                     document.getElementById('loading').style.display = 'none';
-                    document.getElementById('analyzeBtn').disabled = false;
-                    document.getElementById('analyzeBtn').textContent = '🚀 Bắt đầu phân tích';
+                    document.getElementById('analyzeSection').style.display = 'block';
+                    analyzeBtn.disabled = false;
+                    analyzeBtn.textContent = '🚀 Bước 2: Phân tích phong cách';
                     return;
                 }
 
-                // Update UI
+                // Store detected style
+                detectedStyle = result.style;
+
+                // Show style results
+                document.getElementById('resultStyleSection').style.display = 'block';
                 document.getElementById('styleBadge').textContent = '🎨 ' + result.style;
                 document.getElementById('confidenceScore').textContent = 'Độ tin cậy: ' + result.confidence;
-                document.getElementById('promptText').textContent = result.prompt;
+
+                // Handle different modes
+                if (currentMode === 'remix') {
+                    // Remix mode: show content input
+                    document.getElementById('contentInputSection').style.display = 'block';
+                    document.getElementById('contentTextarea').disabled = false;
+                    document.getElementById('checkContentBtn').style.display = 'block';
+                    document.getElementById('contentTextarea').focus();
+                } else {
+                    // Hunter mode: auto-generate prompt for style
+                    document.getElementById('contentInputSection').style.display = 'none';
+                    generatePromptForStyle(detectedStyle);
+                }
 
             } catch (error) {
                 alert('Lỗi kết nối: ' + error.message);
             } finally {
                 document.getElementById('loading').style.display = 'none';
-                document.getElementById('analyzeBtn').disabled = false;
-                document.getElementById('analyzeBtn').textContent = '🚀 Bắt đầu phân tích';
+                analyzeBtn.disabled = false;
+                analyzeBtn.textContent = '🚀 Bước 2: Phân tích phong cách';
             }
+        }
+
+        async function generatePromptForStyle(style) {
+            // Generate prompt for style-only (Hunter mode)
+            try {
+                const response = await fetch('/generate-full-prompt', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        content: '',
+                        style: style
+                    })
+                });
+
+                const result = await response.json();
+                if (result.prompt) {
+                    document.getElementById('resultPromptSection').style.display = 'block';
+                    document.getElementById('promptText').textContent = result.prompt;
+                }
+            } catch (error) {
+                console.error('Error generating prompt:', error);
+                document.getElementById('resultPromptSection').style.display = 'block';
+                document.getElementById('promptText').textContent = 
+                    `(masterpiece, best quality, high detail), ${style}, dramatic lighting, sharp focus — Steps:20, Sampler:Euler a, CFG:7, Size:512x512, Negative:(worst quality, low quality, blurry, bad anatomy, deformed, extra limbs, watermark, text)`;
+            }
+        }
+
+        async function checkContent() {
+            // Check if content matches style and suggest alternative if needed
+            if (!detectedStyle) {
+                alert('Vui lòng chọn ảnh để xác định phong cách trước');
+                return;
+            }
+
+            const content = document.getElementById('contentTextarea').value.trim();
+            if (!content) {
+                alert('Vui lòng nhập nội dung muốn vẽ');
+                return;
+            }
+
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+
+            try {
+                const response = await fetch('/suggest-content', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        content: content,
+                        style: detectedStyle
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.error) {
+                    alert('Lỗi: ' + result.error);
+                    return;
+                }
+
+                // Show modal with content suggestion
+                if (!result.is_relevant && result.suggested_content) {
+                    // Content and style don't match, show suggestion
+                    document.getElementById('contentModalMessage').textContent = 
+                        `Nội dung "${content}" có vẻ không quá liên quan với phong cách "${detectedStyle}". Đây là gợi ý từ AI:`;
+                    document.getElementById('contentOptionTitle').textContent = '✨ Gợi ý nội dung';
+                    document.getElementById('contentOptionText').textContent = result.suggested_content;
+                    document.getElementById('contentOptionDiv').style.display = 'block';
+                } else {
+                    // Content and style match, just confirm
+                    document.getElementById('contentModalMessage').textContent = 
+                        `Nội dung của bạn phù hợp với phong cách "${detectedStyle}". Hãy xác nhận:`;
+                    document.getElementById('contentOptionTitle').textContent = '✓ Nội dung của bạn';
+                    document.getElementById('contentOptionText').textContent = content;
+                    document.getElementById('contentOptionDiv').style.display = 'block';
+                }
+
+                contentModal.show();
+
+            } catch (error) {
+                alert('Lỗi kết nối: ' + error.message);
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
+
+        function selectContent(type) {
+            // User selected content option
+            let contentToUse = '';
+
+            if (type === 'suggested') {
+                contentToUse = document.getElementById('contentOptionText').textContent;
+            }
+
+            // Update textarea with selected content
+            document.getElementById('contentTextarea').value = contentToUse;
+            
+            // Close modal and show Gen Prompt button
+            contentModal.hide();
+            document.getElementById('genPromptSection').style.display = 'block';
+        }
+
+        async function generatePrompt() {
+            // Generate full prompt with content and style
+            if (!detectedStyle) {
+                alert('Vui lòng chọn ảnh để xác định phong cách trước');
+                return;
+            }
+
+            const content = document.getElementById('contentTextarea').value.trim();
+            if (!content) {
+                alert('Vui lòng nhập nội dung muốn vẽ');
+                return;
+            }
+
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('genPromptBtn').disabled = true;
+            document.getElementById('genPromptBtn').textContent = 'Đang tạo prompt...';
+
+            try {
+                const response = await fetch('/generate-full-prompt', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        content: content,
+                        style: detectedStyle
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.error) {
+                    alert('Lỗi: ' + result.error);
+                    return;
+                }
+
+                // Show final prompt output
+                document.getElementById('resultPromptSection').style.display = 'block';
+                document.getElementById('promptText').textContent = result.prompt;
+                selectedPromptText = result.prompt;
+
+            } catch (error) {
+                alert('Lỗi kết nối: ' + error.message);
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('genPromptBtn').disabled = false;
+                document.getElementById('genPromptBtn').textContent = '⚡ Bước 5: Tạo Prompt';
+            }
+        }
+
+        function selectPrompt(type) {
+            // User selected a prompt option
+            let promptToUse = '';
+
+            if (type === 'original') {
+                promptToUse = document.getElementById('originalPromptText').textContent;
+            } else if (type === 'suggested') {
+                promptToUse = document.getElementById('suggestedPromptText').textContent;
+            }
+
+            // Update result display
+            document.getElementById('promptText').textContent = promptToUse;
+            selectedPromptText = promptToUse;
+
+            // Close modal
+            promptModal.hide();
+        }
+
+        function reopenContentInput() {
+            // User wants to go back and edit content
+            contentModal.hide();
+            promptModal.hide();
+            document.getElementById('contentTextarea').focus();
         }
 
         function copyPrompt() {
