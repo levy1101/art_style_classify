@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt-Hunter - Trợ lý tìm từ khóa cho dân vẽ AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin-top: 50px;
+            margin-bottom: 50px;
+            padding: 40px;
+        }
+        .upload-area {
+            border: 3px dashed #007bff;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+        }
+        .upload-area:hover {
+            background-color: #f8f9fa;
+            border-color: #0056b3;
+        }
+        .upload-area.dragover {
+            background-color: #e3f2fd;
+            border-color: #2196F3;
+        }
+        .btn-primary {
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,123,255,0.4);
+        }
+        .result-card {
+            background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .style-badge {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        .confidence-score {
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+        .prompt-box {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            clear: both;
+        }
+        .prompt-text {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+        .copy-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .copy-btn:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,123,255,0.4);
+        }
+        .preview-image {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h1 class="text-center mb-4">
+                    🎨 <strong>Prompt-Hunter</strong>
+                </h1>
+                <p class="text-center text-muted mb-4">
+                    Trợ lý AI thông minh giúp bạn tìm từ khóa cho công cụ vẽ tranh như Midjourney, Stable Diffusion
+                </p>
+
+                <!-- Mode Selection -->
+                <div class="text-center mb-4">
+                    <div class="btn-group" role="group" aria-label="Mode selection">
+                        <input type="radio" class="btn-check" name="mode" id="hunterMode" autocomplete="off" checked>
+                        <label class="btn btn-outline-primary" for="hunterMode">🎯 Style Hunter</label>
+
+                        <input type="radio" class="btn-check" name="mode" id="remixMode" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="remixMode">🔄 Style Remix</label>
+                    </div>
+                </div>
+
+                <div class="upload-area" id="uploadArea">
+                    <div id="uploadContent">
+                        <h4 class="mb-3">📤 Upload ảnh mẫu của bạn</h4>
+                        <p class="text-muted mb-3" id="modeDescription">Chọn một bức tranh mà bạn muốn AI vẽ lại theo phong cách đó</p>
+                        <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                        <button class="btn btn-primary btn-lg" onclick="document.getElementById('fileInput').click()">
+                            Chọn ảnh từ thiết bị
+                        </button>
+                        <div id="analyzeSection" style="display: none; margin-top: 20px;">
+                            <button class="btn btn-success btn-lg" id="analyzeBtn" onclick="startAnalysis()">
+                                🚀 Bắt đầu phân tích
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Input for Remix Mode -->
+                <div id="contentInput" class="mt-3" style="display: none;">
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Nhập nội dung muốn vẽ" id="contentTextarea" style="height: 100px"></textarea>
+                        <label for="contentTextarea">Nội dung muốn vẽ (ví dụ: "con mèo đang ngủ")</label>
+                    </div>
+                </div>
+
+                <div id="loading" class="text-center" style="display: none;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Đang phân tích...</span>
+                    </div>
+                    <p class="mt-2">AI đang phân tích phong cách nghệ thuật...</p>
+                </div>
+
+                <div id="result" class="result-card" style="display: none;">
+                    <h4 class="text-center mb-4">🎯 Kết quả phân tích</h4>
+
+                    <div class="text-center mb-4">
+                        <img id="previewImg" class="preview-image" alt="Ảnh preview">
+                    </div>
+
+                    <div class="text-center mb-3">
+                        <div class="style-badge" id="styleBadge">Đang phân tích...</div>
+                        <div class="confidence-score" id="confidenceScore"></div>
+                    </div>
+
+                    <div class="prompt-box">
+                        <div class="prompt-text" id="promptText">Đang tạo prompt...</div>
+                        <div class="text-center">
+                            <button class="copy-btn" onclick="copyPrompt()">📋 Copy Prompt</button>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <small class="text-muted">Prompt bao gồm tất cả thông số cho Stable Diffusion</small>
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    <small class="text-muted">
+                        Hỗ trợ: JPG, PNG | Tối đa 10MB | AI nhận diện 5 phong cách nghệ thuật
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedFile = null;
+        let currentMode = 'hunter'; // Default mode
+
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            selectedFile = e.target.files[0];
+            if (selectedFile) {
+                // Preview image
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const previewImg = document.getElementById('previewImg');
+                    previewImg.src = e.target.result;
+                    previewImg.style.display = 'block';
+
+                    // Show result area and analyze button
+                    document.getElementById('result').style.display = 'block';
+                    document.getElementById('analyzeSection').style.display = 'block';
+                };
+                reader.readAsDataURL(selectedFile);
+            }
+        });
+
+        // Drag and drop functionality
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight(e) {
+            uploadArea.classList.add('dragover');
+        }
+
+        function unhighlight(e) {
+            uploadArea.classList.remove('dragover');
+        }
+
+        uploadArea.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+
+            if (files.length > 0) {
+                selectedFile = files[0];
+                fileInput.files = files;
+                fileInput.dispatchEvent(new Event('change'));
+            }
+        }
+
+        function startAnalysis() {
+            if (selectedFile) {
+                document.getElementById('loading').style.display = 'block';
+                document.getElementById('analyzeBtn').disabled = true;
+                document.getElementById('analyzeBtn').textContent = 'Đang phân tích...';
+                analyzeImage(selectedFile);
+            }
+        }
+
+        // Mode switching logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const hunterMode = document.getElementById('hunterMode');
+            const remixMode = document.getElementById('remixMode');
+
+            if (hunterMode) {
+                hunterMode.addEventListener('change', function() {
+                    if (this.checked) {
+                        currentMode = 'hunter';
+                        document.getElementById('modeDescription').textContent = 'Chọn một bức tranh mà bạn muốn AI vẽ lại theo phong cách đó';
+                        document.getElementById('contentInput').style.display = 'none';
+                    }
+                });
+            }
+
+            if (remixMode) {
+                remixMode.addEventListener('change', function() {
+                    if (this.checked) {
+                        currentMode = 'remix';
+                        document.getElementById('modeDescription').textContent = 'Upload ảnh mẫu để lấy phong cách, nhập nội dung mới để kết hợp';
+                        document.getElementById('contentInput').style.display = 'block';
+                    }
+                });
+            }
+        });
+
+        async function analyzeImage(file) {
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('mode', currentMode);
+
+            if (currentMode === 'remix') {
+                const content = document.getElementById('contentTextarea').value.trim();
+                if (!content) {
+                    alert('Vui lòng nhập nội dung muốn vẽ cho chế độ Remix');
+                    document.getElementById('loading').style.display = 'none';
+                    return;
+                }
+                formData.append('content', content);
+            }
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.error) {
+                    alert('Lỗi: ' + result.error);
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('analyzeBtn').disabled = false;
+                    document.getElementById('analyzeBtn').textContent = '🚀 Bắt đầu phân tích';
+                    return;
+                }
+
+                // Update UI
+                document.getElementById('styleBadge').textContent = '🎨 ' + result.style;
+                document.getElementById('confidenceScore').textContent = 'Độ tin cậy: ' + result.confidence;
+                document.getElementById('promptText').textContent = result.prompt;
+
+            } catch (error) {
+                alert('Lỗi kết nối: ' + error.message);
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('analyzeBtn').disabled = false;
+                document.getElementById('analyzeBtn').textContent = '🚀 Bắt đầu phân tích';
+            }
+        }
+
+        function copyPrompt() {
+            const promptText = document.getElementById('promptText').textContent;
+            navigator.clipboard.writeText(promptText).then(function() {
+                const copyBtn = document.querySelector('.copy-btn');
+                const originalText = copyBtn.textContent;
+                copyBtn.textContent = '✅ Đã copy!';
+                copyBtn.style.background = '#28a745';
+
+                setTimeout(() => {
+                    copyBtn.textContent = originalText;
+                    copyBtn.style.background = '#007bff';
+                }, 2000);
+            }).catch(function(err) {
+                alert('Không thể copy. Vui lòng chọn và copy thủ công.');
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

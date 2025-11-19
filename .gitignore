@@ -1,0 +1,97 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+build/
+dist/
+eggs/
+*.egg-info/
+*.egg
+pip-wheel-metadata/
+kaggle/
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+memory-bank/
+# Virtual environments
+env/
+venv/
+ENV/
+.venv/
+.ENV/
+env.bak/
+
+# Environment variables and secrets
+.env
+.env.local
+.env.*.local
+
+# Model files
+art_style_classifier.h5
+*.h5
+# Tests, coverage and caches
+.pytest_cache/
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
+.cache
+nosetests.xml
+coverage.xml
+
+# Django, Flask, and web frameworks
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+instance/
+.webassets-cache
+
+# Jupyter
+.ipynb_checkpoints
+
+# Sphinx
+docs/_build/
+
+# PyBuilder
+target/
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Pyre / mypy / type checkers
+.mypy_cache/
+.dmypy.json
+.pyre/
+
+# IDEs and editors
+.vscode/
+.idea/
+.spyderproject
+.spyproject
+*.sublime-workspace
+*.sublime-project
+
+# Misc
+*.mo
+*.pot
+*.log
+*.tmp
+*.swp
+
+# Environment files
+.env
+.python-version
+
+# OS files
+.DS_Store
+Thumbs.db
+
+kaggle
