@@ -78,3 +78,4 @@ IMAGE_SIZE = (256, 256)
 # API Keys
 # Get from https://console.groq.com/
 GROQ_API_KEY = os.getenv('GROQ_API_KEY', '')
+GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY', '')

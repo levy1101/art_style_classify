@@ -5,7 +5,9 @@ from PIL import Image
 import io
 import os
 from openai import OpenAI
-from constants import MODEL_FILENAME, LABELS, GROQ_MODEL, SYSTEM_PROMPT, IMAGE_SIZE, GROQ_API_KEY, RELEVANCE_CHECK_PROMPT, CONTENT_SUGGESTION_PROMPT
+import google.genai as genai
+from google.genai import types
+from constants import MODEL_FILENAME, LABELS, GROQ_MODEL, SYSTEM_PROMPT, IMAGE_SIZE, GROQ_API_KEY, RELEVANCE_CHECK_PROMPT, CONTENT_SUGGESTION_PROMPT, GOOGLE_API_KEY
 
 app = Flask(__name__)
 
@@ -113,6 +115,43 @@ def generate_full_prompt():
     except Exception as e:
         print(f"Error in generate_full_prompt: {e}")
         return jsonify({'error': 'Generation failed'})
+
+@app.route('/generate-image', methods=['POST'])
+def generate_image():
+    """Generate images using Imagen API"""
+    try:
+        prompt = request.json.get('prompt', '').strip()
+
+        if not prompt:
+            return jsonify({'error': 'Missing prompt'})
+
+        if not GOOGLE_API_KEY:
+            return jsonify({'error': 'Google API key not configured'})
+
+        # Set API key in environment
+        os.environ['GOOGLE_API_KEY'] = GOOGLE_API_KEY
+        client = genai.Client()
+
+        response = client.models.generate_images(
+            model='imagen-4.0-generate-001',
+            prompt=prompt,
+            config=types.GenerateImagesConfig(
+                number_of_images=4,
+            )
+        )
+
+        images = []
+        for generated_image in response.generated_images:
+            # Convert bytes to base64 string
+            import base64
+            image_b64 = base64.b64encode(generated_image.image.image_bytes).decode('utf-8')
+            images.append(f"data:image/png;base64,{image_b64}")
+
+        return jsonify({'images': images})
+
+    except Exception as e:
+        print(f"Error generating image: {e}")
+        return jsonify({'error': 'Image generation failed'})
 
 def check_content_relevance(content, style):
     """Check if content and style are relevant, suggest bridging prompt if not"""
