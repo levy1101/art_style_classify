@@ -117,20 +117,28 @@
             box-shadow: 0 5px 15px rgba(40,167,69,0.4);
         }
         .generated-images {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
             margin-top: 20px;
+            margin-bottom: 20px;
         }
         .generated-image {
-            max-width: 200px;
-            max-height: 200px;
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .generated-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
         }
         .preview-image {
-            max-width: 200px;
-            max-height: 200px;
+            max-width: 300px;
+            max-height: 300px;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             margin-bottom: 15px;
@@ -318,12 +326,36 @@
         </div>
     </div>
 
+    <!-- Modal hiển thị và download ảnh -->
+    <div id="imageModal" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">🖼️ Ảnh được tạo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="modalImage" src="" alt="Generated image" style="max-width: 100%; height: auto; border-radius: 10px;">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        Đóng
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="downloadImage()">
+                        📥 Tải về
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         let selectedFile = null;
         let currentMode = 'hunter'; // Default mode
         let detectedStyle = null; // Track detected style
         let contentModal = null;
         let promptModal = null;
+        let imageModal = null;
         let selectedPromptText = null;
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -332,6 +364,11 @@
                 backdrop: 'static'
             });
             promptModal = new bootstrap.Modal(document.getElementById('promptModal'), {
+                keyboard: false,
+                backdrop: 'static'
+            });
+
+            imageModal = new bootstrap.Modal(document.getElementById('imageModal'), {
                 keyboard: false,
                 backdrop: 'static'
             });
@@ -737,17 +774,19 @@
                     return;
                 }
 
-                // Display images
+                // Display images in 2x2 grid
                 const imagesDiv = document.getElementById('generatedImages');
                 imagesDiv.innerHTML = '';
-                result.images.forEach(imageSrc => {
+                result.images.forEach((imageSrc, index) => {
                     const img = document.createElement('img');
                     img.src = imageSrc;
                     img.className = 'generated-image';
-                    img.alt = 'Generated image';
+                    img.alt = `Generated image ${index + 1}`;
+                    img.style.cursor = 'pointer';
+                    img.onclick = () => openImageModal(imageSrc);
                     imagesDiv.appendChild(img);
                 });
-                imagesDiv.style.display = 'flex';
+                imagesDiv.style.display = 'grid';
 
             } catch (error) {
                 alert('Lỗi kết nối: ' + error.message);
@@ -755,6 +794,28 @@
                 generateBtn.disabled = false;
                 generateBtn.textContent = originalText;
             }
+        }
+
+        function openImageModal(imageSrc) {
+            document.getElementById('modalImage').src = imageSrc;
+            // Store image src globally for download
+            window.currentImageSrc = imageSrc;
+            imageModal.show();
+        }
+
+        function downloadImage() {
+            if (!window.currentImageSrc) {
+                alert('Không có ảnh để tải');
+                return;
+            }
+
+            // Convert base64 to blob and download
+            const link = document.createElement('a');
+            link.href = window.currentImageSrc;
+            link.download = `prompt-hunter-${Date.now()}.png`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
     </script>
 
