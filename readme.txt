@@ -1,40 +1,40 @@
 ═══════════════════════════════════════════════════════════════
-  HƯỚNG DẪN CHẠY DỰ ÁN PROMPT-HUNTER
+  PROMPT-HUNTER - SETUP GUIDE
 ═══════════════════════════════════════════════════════════════
 
-1. CHUẨN BỊ BAN ĐẦU
-   - Cài đặt Python 3.8+ (nếu chưa có)
-   - Clone hoặc tải dự án về máy
+1. PREREQUISITES
+   - Install Python 3.8+ (if not already installed)
+   - Clone or download the project
 
-2. CHẠY CHƯƠNG TRÌNH
-   - Nhấp đôi vào file: 01_run.bat
-   - Hoặc chạy lệnh trong Command Prompt:
+2. RUN THE APPLICATION
+   - Double-click file: 01_run.bat
+   - Or run command in Command Prompt:
      cd D:\Levy\ttnt
      01_run.bat
 
-3. CẤU HÌNH API KEY
-   - Tạo file .env trong thư mục gốc dự án (nếu chưa có)
-   - Thêm các biến môi trường sau:
+3. CONFIGURE API KEYS
+   - Create .env file in project root (if not exists)
+   - Add the following environment variables:
      
      GROQ_API_KEY=your_groq_api_key
      GOOGLE_API_KEY=your_google_api_key
 
-   - Lưu file và chạy lại 01_run.bat
+   - Save file and run 01_run.bat again
 
-4. TRUY CẬP ỨNG DỤNG
-   - Mở trình duyệt web
-   - Nhập địa chỉ: http://localhost:5000
-   - Bắt đầu sử dụng ứng dụng
+4. ACCESS THE APPLICATION
+   - Open web browser
+   - Enter address: http://localhost:5000
+   - Start using the application
 
-5. DỪNG CHƯƠNG TRÌNH
-   - Nhấn Ctrl + C trong Command Prompt
-   - Hoặc đóng cửa sổ Command Prompt
+5. STOP THE APPLICATION
+   - Press Ctrl + C in Command Prompt
+   - Or close the Command Prompt window
 
-═══════════════════════════════════════════════════════════════
-  GHI CHÚ
-═══════════════════════════════════════════════════════════════
-- Ứng dụng sử dụng cổng 5000
-- Chế độ debug được kích hoạt
-- Tạo thư mục env nếu muốn sử dụng virtual environment
+═════════════════════════════════════════════════════════════════
+  NOTES
+═════════════════════════════════════════════════════════════════
+- Application uses port 5000
+- Debug mode is enabled
+- Create 'env' folder if you want to use virtual environment
 
-═══════════════════════════════════════════════════════════════
+═════════════════════════════════════════════════════════════════
