@@ -22,6 +22,7 @@
 ---
 
 <a id="1-introduction-objectives"></a>
+
 ## 1. GIỚI THIỆU & MỤC TIÊU
 
 ### Giới thiệu
@@ -46,6 +47,7 @@ Mục tiêu chính là tạo ra một công cụ dễ sử dụng nhưng mạnh 
 ---
 
 <a id="2-overall-architecture-workflow"></a>
+
 ## 2. TỔNG QUAN KIẾN TRÚC & LUỒNG XỬ LÝ
 
 ### Sơ đồ tổng quan
@@ -75,6 +77,7 @@ Luồng xử lý được thiết kế để tự động hóa tối đa, từ v
 ---
 
 <a id="3-directory-structure-file-meanings"></a>
+
 ## 3. CẤU TRÚC THƯ MỤC & Ý NGHĨA CÁC FILE
 
 ```
@@ -114,6 +117,7 @@ Cấu trúc thư mục được thiết kế để dễ quản lý, bảo mật,
 ---
 
 <a id="4-environment-setup-hardware-preparation"></a>
+
 ## 4. CÀI ĐẶT MÔI TRƯỜNG & CHUẨN BỊ PHẦN CỨNG
 
 ### Yêu cầu phần cứng
@@ -130,6 +134,7 @@ Cấu trúc thư mục được thiết kế để dễ quản lý, bảo mật,
    - Hoặc dùng package manager: `apt install python3` (Linux), `brew install python` (macOS)
 
 2. **Tạo virtual environment**
+
    ```bash
    python -m venv env
    # Windows
@@ -139,6 +144,7 @@ Cấu trúc thư mục được thiết kế để dễ quản lý, bảo mật,
    ```
 
 3. **Cài đặt dependencies**
+
    ```bash
    pip install -r requirements.txt
    ```
@@ -155,6 +161,7 @@ Cấu trúc thư mục được thiết kế để dễ quản lý, bảo mật,
    - Tạo API key
 
 3. **Tạo file .env**
+
    ```bash
    echo GROQ_API_KEY=your_groq_key > .env
    echo GOOGLE_API_KEY=your_google_key >> .env
@@ -170,6 +177,7 @@ python app.py
 ---
 
 <a id="5-configuration-data-preparation"></a>
+
 ## 5. CẤU HÌNH & CHUẨN BỊ DỮ LIỆU
 
 ### File constants.py
@@ -209,6 +217,7 @@ CONTENT_SUGGESTION_PROMPT = """Bạn là chuyên gia tạo prompt..."""
 ---
 
 <a id="6-end-user-usage-guide"></a>
+
 ## 6. HƯỚNG DẪN SỬ DỤNG CHO NGƯỜI DÙNG CUỐI
 
 ### Chế độ Style Hunter
@@ -216,6 +225,7 @@ CONTENT_SUGGESTION_PROMPT = """Bạn là chuyên gia tạo prompt..."""
 Dùng khi chỉ muốn phát hiện style từ ảnh và tạo prompt cho style đó.
 
 **Bước thực hiện:**
+
 1. Chọn chế độ "🎯 Style Hunter"
 2. Upload ảnh nghệ thuật (JPG/PNG < 10MB)
 3. Click "🚀 Phân tích phong cách"
@@ -227,6 +237,7 @@ Dùng khi chỉ muốn phát hiện style từ ảnh và tạo prompt cho style 
 Dùng khi muốn kết hợp style từ ảnh với content tùy chỉnh.
 
 **Bước thực hiện:**
+
 1. Chọn chế độ "🔄 Style Remix"
 2. Upload ảnh để xác định style
 3. Nhập content muốn vẽ (ví dụ: "con mèo bay")
@@ -245,6 +256,7 @@ Dùng khi muốn kết hợp style từ ảnh với content tùy chỉnh.
 ---
 
 <a id="7-developer-guide-extensions"></a>
+
 ## 7. HƯỚNG DẪN CHO DEVELOPER & MỞ RỘNG
 
 ### Thêm phong cách nghệ thuật mới
@@ -277,17 +289,20 @@ Dùng khi muốn kết hợp style từ ảnh với content tùy chỉnh.
 ---
 
 <a id="8-detailed-file-explanations-processing-flows"></a>
+
 ## 8. GIẢI THÍCH CHI TIẾT TỪNG FILE & LUỒNG XỬ LÝ
 
 ### app.py - Flask Backend
 
 **Chức năng chính:**
+
 - Web server với Flask
 - API endpoints cho style detection, content validation, prompt generation, image generation
 - Error handling và logging
 - Model loading và caching
 
 **Luồng xử lý:**
+
 ```python
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -300,6 +315,7 @@ def predict():
 ### constants.py - Configuration
 
 **Chứa:**
+
 - API keys và model paths
 - Prompt templates cho LLM
 - Style labels và image size
@@ -308,6 +324,7 @@ def predict():
 ### templates/index.html - Frontend
 
 **Components:**
+
 - Mode selection (Hunter/Remix)
 - File upload với drag & drop
 - Content input textarea
@@ -318,18 +335,21 @@ def predict():
 ### art_style_classifier.h5 - CNN Model
 
 **Architecture:**
+
 - Xception base model (pretrained on ImageNet)
 - Custom layers: GlobalAveragePooling2D, Dense, Dropout
 - Output: 5 classes với softmax
 
 **Training:**
+
 - Dataset: WikiArt với 5 art styles
 - Input: 256x256 RGB images
 - Accuracy: 92-95%
 
 ### Luồng xử lý chi tiết
 
-#### Style Hunter Mode:
+#### Style Hunter Mode
+
 1. User upload image
 2. Frontend validation (JPG/PNG, <10MB)
 3. Send to /predict endpoint
@@ -339,7 +359,8 @@ def predict():
 7. Return JSON response
 8. Frontend display + auto-generate prompt
 
-#### Style Remix Mode:
+#### Style Remix Mode
+
 1. Style detection (same as Hunter)
 2. Content input from user
 3. Relevance check via Groq API
@@ -352,13 +373,16 @@ def predict():
 ---
 
 <a id="9-api-endpoints-processing-results"></a>
+
 ## 9. QUY TRÌNH API & XỬ LÝ KẾT QUẢ
 
 ### API Endpoints
 
 #### `/predict` (POST)
+
 **Input:** FormData với file ảnh
 **Processing:**
+
 - File validation (type, size)
 - PIL image processing (RGB convert, resize 256x256, normalize)
 - TensorFlow model inference
@@ -366,24 +390,30 @@ def predict():
 **Output:** `{"style": "Baroque", "confidence": "93.45%"}`
 
 #### `/suggest-content` (POST)
+
 **Input:** `{"content": "robot", "style": "Japanese Art"}`
 **Processing:**
+
 - Groq API call với relevance check prompt
 - Parse YES/NO response
 - If NO: Second Groq call for content suggestion
 **Output:** `{"is_relevant": false, "suggested_content": "samurai cyborg"}`
 
 #### `/generate-full-prompt` (POST)
+
 **Input:** `{"content": "samurai", "style": "Japanese Art"}`
 **Processing:**
+
 - Groq API call với system prompt template
 - LLaMA generates optimized prompt
 - Add technical parameters (Steps, Sampler, CFG, etc.)
 **Output:** `{"prompt": "complete optimized prompt"}`
 
 #### `/generate-image` (POST)
+
 **Input:** `{"prompt": "full prompt text"}`
 **Processing:**
+
 - Google Imagen API call
 - Generate 4 images
 - Convert to base64 for frontend
@@ -399,6 +429,7 @@ def predict():
 ---
 
 <a id="10-example-outputs-logs-demo-results"></a>
+
 ## 10. VÍ DỤ ĐẦU RA, LOG, KẾT QUẢ DEMO
 
 ### Ví dụ log session
@@ -415,6 +446,7 @@ def predict():
 ### Ví dụ output
 
 **Style Detection:**
+
 ```json
 {
   "style": "Japanese Art",
@@ -423,6 +455,7 @@ def predict():
 ```
 
 **Content Check:**
+
 ```json
 {
   "is_relevant": false,
@@ -431,6 +464,7 @@ def predict():
 ```
 
 **Generated Prompt:**
+
 ```
 (masterpiece, best quality, high detail), traditional samurai warrior with flowing robes, Japanese Art, dramatic lighting, sharp focus — Steps:20, Sampler:Euler a, CFG:7, Size:512x512, Negative:(worst quality, low quality, blurry, bad anatomy, deformed, extra limbs, watermark, text)
 ```
@@ -442,6 +476,7 @@ Google Imagen tạo 4 ảnh base64 encoded, hiển thị trong modal popup trên
 ---
 
 <a id="11-troubleshooting-performance-tuning"></a>
+
 ## 11. TROUBLESHOOTING & PERFORMANCE TUNING
 
 ### Lỗi thường gặp
@@ -470,6 +505,7 @@ python app.py
 ---
 
 <a id="12-best-practices-environment-management"></a>
+
 ## 12. BEST PRACTICES & QUẢN LÝ MÔI TRƯỜNG
 
 - Sử dụng virtual environment cho từng project
@@ -483,6 +519,7 @@ python app.py
 ---
 
 <a id="13-references-contact-contributions"></a>
+
 ## 13. TÀI LIỆU THAM KHẢO, LIÊN HỆ, ĐÓNG GÓP
 
 ### Tài liệu tham khảo
@@ -496,7 +533,7 @@ python app.py
 ### Liên hệ
 
 - **GitHub Issues**: Báo bug và đề xuất tính năng
-- **Email**: support@prompt-hunter.com
+- **Email**: <support@prompt-hunter.com>
 - **Discord**: [Prompt-Hunter Community](https://discord.gg/prompt-hunter)
 
 ### Đóng góp
@@ -506,6 +543,7 @@ Chúng tôi hoan nghênh mọi đóng góp! Fork repository, tạo feature branc
 ---
 
 <a id="14-detailed-code-flow-diagrams"></a>
+
 ## 14. SƠ ĐỒ CHI TIẾT CÁC LUỒNG XỬ LÝ TRONG CODE
 
 ### 1. Sơ đồ tổng quan System Architecture
@@ -709,6 +747,7 @@ Khi làm việc với các công cụ AI vẽ ảnh như Stable Diffusion, Midjo
 #### 💡 Ví dụ thực tế về lợi ích
 
 **Trước khi dùng Prompt-Hunter:**
+
 ```
 User nghĩ: "Tôi muốn vẽ một con robot theo phong cách Nhật Bản"
 User viết prompt: "robot in Japanese style"
@@ -717,6 +756,7 @@ User viết prompt: "robot in Japanese style"
 ```
 
 **Sau khi dùng Prompt-Hunter:**
+
 ```
 Upload ảnh anime mẫu → Detected: "Japanese Art"
 Nhập: "robot" → AI gợi ý: "samurai cyborg warrior"
@@ -804,12 +844,14 @@ pip --version
 ### Cài đặt từng bước
 
 **1. Clone repository**
+
 ```bash
 git clone https://github.com/levy1101/prompt-hunter.git
 cd prompt-hunter
 ```
 
 **2. Tạo virtual environment**
+
 ```bash
 # Windows
 python -m venv env
@@ -821,11 +863,13 @@ source env/bin/activate
 ```
 
 **3. Cài đặt dependencies**
+
 ```bash
 pip install -r requirements.txt
 ```
 
 **4. Set up API Key**
+
 ```bash
 # Tạo file .env
 echo GROQ_API_KEY=your_key_here > .env
@@ -834,14 +878,16 @@ echo GROQ_API_KEY=your_key_here > .env
 # GROQ_API_KEY=sk_xxxxxxxxxxxxxxxxxxxx
 ```
 
-Lấy API Key miễn phí từ: https://console.groq.com
+Lấy API Key miễn phí từ: <https://console.groq.com>
 
 **5. Chạy ứng dụng**
+
 ```bash
 python app.py
 ```
 
 **6. Mở trình duyệt**
+
 ```
 http://localhost:5000
 ```
@@ -861,6 +907,7 @@ Prompt-Hunter được xây dựng theo kiến trúc **Client-Server** với 3 t
 #### Chi tiết từng tầng
 
 **Frontend Layer (HTML/CSS/JavaScript):**
+
 - **Framework**: Bootstrap 5 cho responsive design
 - **JavaScript**: Vanilla JS với AJAX calls
 - **State Management**: Client-side state cho workflow steps
@@ -868,6 +915,7 @@ Prompt-Hunter được xây dựng theo kiến trúc **Client-Server** với 3 t
 - **UI/UX**: Progressive disclosure (hiển thị từng bước)
 
 **Backend Layer (Flask + Python):**
+
 - **Web Framework**: Flask micro-framework
 - **API Design**: RESTful endpoints với JSON responses
 - **Image Processing**: Pillow + NumPy cho preprocessing
@@ -876,6 +924,7 @@ Prompt-Hunter được xây dựng theo kiến trúc **Client-Server** với 3 t
 - **Security**: Input validation + file type checking
 
 **AI/ML Layer:**
+
 - **Computer Vision**: TensorFlow CNN cho style classification
 - **Natural Language Processing**: Groq LLaMA cho prompt generation
 - **Content Analysis**: LLM-based relevance checking
@@ -991,6 +1040,7 @@ Prompt-Hunter được xây dựng theo kiến trúc **Client-Server** với 3 t
 ```
 
 **Technical Details:**
+
 - **Image Processing**: PIL handles various formats, converts to consistent RGB
 - **Model Architecture**: CNN with multiple conv layers + pooling + dense layers
 - **Inference Time**: ~1-2 seconds on CPU, faster on GPU
@@ -1069,6 +1119,7 @@ Prompt-Hunter được xây dựng theo kiến trúc **Client-Server** với 3 t
 ```
 
 **Technical Details:**
+
 - **API Orchestration**: Sequential API calls with error handling
 - **State Management**: Frontend tracks workflow state across steps
 - **Fallback Handling**: If Groq fails, use hardcoded fallback prompts
@@ -1080,6 +1131,7 @@ Prompt-Hunter được xây dựng theo kiến trúc **Client-Server** với 3 t
 #### 1. Computer Vision Pipeline (TensorFlow CNN)
 
 **Model Architecture:**
+
 ```
 Input Layer: (256, 256, 3) RGB images
     ↓
@@ -1104,6 +1156,7 @@ Prediction: Argmax of 5 probabilities
 ```
 
 **Training Details:**
+
 - **Dataset**: WikiArt dataset với 5 phong cách nghệ thuật
 - **Preprocessing**: Resize to 256x256, normalize [0,1], data augmentation
 - **Optimizer**: Adam với learning rate 0.001
@@ -1113,6 +1166,7 @@ Prediction: Argmax of 5 probabilities
 - **Accuracy**: 92-95% trên test set
 
 **Inference Process:**
+
 ```python
 # Load model once (cached)
 model = tf.keras.models.load_model('art_style_classifier.h5')
@@ -1137,6 +1191,7 @@ predicted_style = style_names[predicted_index]
 #### 2. Natural Language Processing (Groq LLaMA)
 
 **API Integration Architecture:**
+
 ```
 Frontend Request
     ↓
@@ -1163,6 +1218,7 @@ Response Processing
 **Prompt Engineering Strategy:**
 
 **SYSTEM_PROMPT (Main Generation):**
+
 ```
 Bạn là chuyên gia tạo prompt cho Stable Diffusion.
 Tạo prompt tối ưu với format:
@@ -1175,6 +1231,7 @@ CONTENT=[user_content], STYLE=[detected_style]
 ```
 
 **RELEVANCE_CHECK_PROMPT (Content Validation):**
+
 ```
 Bạn là chuyên gia nghệ thuật AI. Kiểm tra xem nội dung và phong cách
 có phù hợp không? Trả lời CHỈ "YES" hoặc "NO":
@@ -1186,6 +1243,7 @@ CONTENT="[content]", STYLE="[style]"
 ```
 
 **CONTENT_SUGGESTION_PROMPT (Smart Suggestions):**
+
 ```
 Bạn là chuyên gia tạo prompt. Khi nội dung và phong cách không phù hợp,
 tạo gợi ý kết nối chúng tự nhiên.
@@ -1201,6 +1259,7 @@ ORIGINAL="[content]", STYLE="[style]"
 #### 3. Web Framework (Flask Backend)
 
 **Application Structure:**
+
 ```python
 app = Flask(__name__)
 
@@ -1236,6 +1295,7 @@ if __name__ == '__main__':
 ```
 
 **Error Handling & Validation:**
+
 - File type validation (JPG/PNG only)
 - File size limits (10MB)
 - API key validation
@@ -1245,6 +1305,7 @@ if __name__ == '__main__':
 #### 4. Frontend Architecture (HTML/CSS/JavaScript)
 
 **Component Structure:**
+
 ```html
 <!-- Main Container -->
 <div class="container">
@@ -1279,6 +1340,7 @@ if __name__ == '__main__':
 ```
 
 **JavaScript State Management:**
+
 ```javascript
 // Global state
 let selectedFile = null;
@@ -1306,6 +1368,7 @@ async function analyzeImage(file) {
 ```
 
 **UI/UX Flow Control:**
+
 - Progressive disclosure (show/hide sections based on state)
 - Loading indicators during API calls
 - Modal dialogs for complex interactions
@@ -1323,6 +1386,7 @@ async function analyzeImage(file) {
 | **Uptime** | 99.9% | 99.9% | 99.9% |
 
 **Lý do chọn Groq:**
+
 - ✅ Hoàn toàn **miễn phí** (free tier không giới hạn)
 - ✅ **Cực nhanh** - dưới 100ms response time
 - ✅ **Đủ mạnh** - LLaMA 3.1 8B cho task NLP phức tạp
@@ -1333,6 +1397,7 @@ async function analyzeImage(file) {
 #### 5. Image Generation Integration (Google Imagen)
 
 **API Integration Architecture:**
+
 ```
 User Clicks "Generate Image"
     ↓
@@ -1369,6 +1434,7 @@ Frontend: Display results
 ```
 
 **Technical Implementation:**
+
 ```python
 import os
 import google.genai as genai
@@ -1413,6 +1479,7 @@ def generate_image():
 ```
 
 **Integration Benefits:**
+
 - **Seamless workflow**: Generate images directly from created prompts
 - **Quality validation**: See actual results before using external tools
 - **Demo capability**: Show users what their prompts produce
@@ -1460,6 +1527,7 @@ User Output
 ```
 
 **System Integration Points:**
+
 - **Model Caching**: TensorFlow model loaded once at startup
 - **API Rate Limiting**: Built-in delays between Groq calls
 - **Error Recovery**: Fallback prompts if API fails
@@ -1468,6 +1536,7 @@ User Output
 - **Performance**: Async processing, loading indicators
 
 **Scalability Considerations:**
+
 - **Horizontal Scaling**: Stateless Flask app, can run multiple instances
 - **API Limits**: Groq free tier limits, Google Imagen quotas
 - **Caching**: Model caching, potential prompt caching
@@ -1475,6 +1544,7 @@ User Output
 - **Database**: Currently stateless, could add for user sessions
 
 **Monitoring & Debugging:**
+
 - **Logging**: Session logs in app_log/ directory
 - **Error Tracking**: Console logging for API failures
 - **Performance Metrics**: Response times tracked
@@ -1537,6 +1607,7 @@ response = client.chat.completions.create(
 **Hai chức năng chính:**
 
 #### A. Content Relevance Check
+
 ```
 Input: 
   - content: "robot đang bay"
@@ -1554,6 +1625,7 @@ Output: {is_relevant: true}
 ```
 
 #### B. Content Suggestion
+
 ```
 Input:
   - content: "spaceship flying through space"
@@ -1570,6 +1642,7 @@ Output: "A traditional sailing ship with moonlit water and mountains"
 ```
 
 #### C. Prompt Generation
+
 ```
 Input:
   - content: "samurai warrior"
@@ -1590,6 +1663,7 @@ Output: {prompt: "...full prompt..."}
 ### 3. Flask Backend - API Endpoints
 
 #### **Endpoint 1: /predict** (POST)
+
 Phát hiện phong cách từ ảnh
 
 ```bash
@@ -1605,6 +1679,7 @@ curl -X POST http://localhost:5000/predict \
 ```
 
 **Processing:**
+
 - Nhận file ảnh từ request
 - Resize → 256x256
 - Normalize pixel values [0, 1]
@@ -1614,6 +1689,7 @@ curl -X POST http://localhost:5000/predict \
 - Return style + confidence
 
 #### **Endpoint 2: /suggest-content** (POST)
+
 Check content + gợi ý
 
 ```bash
@@ -1637,6 +1713,7 @@ Check content + gợi ý
 ```
 
 **Processing:**
+
 1. Gửi content + style → Groq API
 2. Prompt: "Is '{content}' suitable for {style}? YES or NO only."
 3. Check response: Nếu chứa "YES" → relevant
@@ -1644,6 +1721,7 @@ Check content + gợi ý
 5. Return kết quả
 
 #### **Endpoint 3: /generate-full-prompt** (POST)
+
 Tạo prompt hoàn chỉnh
 
 ```bash
@@ -1663,6 +1741,7 @@ Tạo prompt hoàn chỉnh
 ```
 
 **Processing:**
+
 1. Input: content + style
 2. Call Groq API
 3. Template: Kết hợp system prompt + user message
@@ -1676,6 +1755,7 @@ Tạo prompt hoàn chỉnh
 **File:** `templates/index.html`
 
 **Cấu trúc:**
+
 ```
 ┌─────────────────────────────────────────┐
 │ Header: Prompt-Hunter                   │
@@ -1704,11 +1784,13 @@ Tạo prompt hoàn chỉnh
 ```
 
 **CSS Framework:** Bootstrap 5
+
 - Responsive grid system
 - Pre-built components (buttons, modals)
 - Custom gradients & animations
 
 **JavaScript Logic:**
+
 - Event listeners for buttons
 - Modal dialogs
 - AJAX calls to Flask API
@@ -1724,6 +1806,7 @@ Tạo prompt hoàn chỉnh
 Dùng khi: Bạn muốn AI tạo prompt dựa trên style của ảnh mẫu, mà không cần custom nội dung.
 
 **Bước 1-7:**
+
 ```
 1. Click "🎯 Style Hunter"
    → UI thay đổi thành chế độ hunter
@@ -1751,6 +1834,7 @@ Dùng khi: Bạn muốn AI tạo prompt dựa trên style của ảnh mẫu, mà
 **Ví dụ thực tế:**
 
 **Input:** Upload "Mona Lisa.jpg"
+
 ```
 ↓ Phân tích
 ↓
@@ -1774,6 +1858,7 @@ Generate
 Dùng khi: Bạn muốn giữ phong cách từ ảnh mẫu nhưng tạo nội dung khác theo ý muốn.
 
 **Bước 1-8:**
+
 ```
 1. Click "🔄 Style Remix"
    → UI hiển thị content input
@@ -1869,6 +1954,7 @@ focus — Steps:20, Sampler:Euler a, CFG:7, Size:512x512, Negative:...
 ### Viết nội dung tốt cho Style Remix
 
 **❌ BAD - Quá generic:**
+
 ```
 "animal"
 "sky"
@@ -1878,6 +1964,7 @@ focus — Steps:20, Sampler:Euler a, CFG:7, Size:512x512, Negative:...
 ```
 
 **✅ GOOD - Chi tiết, có emotion:**
+
 ```
 "a warrior standing on mountain peak at sunset"
 "a cat with mystical glowing eyes in enchanted forest"
@@ -1886,6 +1973,7 @@ focus — Steps:20, Sampler:Euler a, CFG:7, Size:512x512, Negative:...
 ```
 
 **💡 Tips:**
+
 - Thêm **tính từ** (adjective): beautiful, ethereal, vibrant, dark
 - Thêm **setting**: in forest, at sunset, in temple, in space
 - Thêm **emotion/atmosphere**: mystical, dramatic, serene, chaotic
@@ -1894,6 +1982,7 @@ focus — Steps:20, Sampler:Euler a, CFG:7, Size:512x512, Negative:...
 ### Tối ưu kết quả từ Stable Diffusion
 
 Prompt được tạo luôn có cấu trúc:
+
 ```
 [Quality] [Content] [Style] [Atmosphere] [Technical Params] [Negative]
 
@@ -1935,18 +2024,21 @@ Muốn nhanh hơn:
 ### 1. Art Nouveau Modern
 
 **Đặc điểm trực quan:**
+
 - Đường cong mịn, hình hoa lá
 - Chi tiết ornate (trang trí phức tạp)
 - Màu sắc tổng hợp, hài hòa
 - Phong cách hiện đại nhưng thanh lịch
 
 **Thích hợp cho:**
+
 - Thiết kế, poster, trang trí
 - Nhân vật nữ tính, thanh lịch
 - Background với hoa lá
 - Branding, logo
 
 **Content suggestions:**
+
 - "elegant woman with flowing art nouveau patterns"
 - "ornate decorative frame with swirling flowers"
 - "mystical nature with art nouveau aesthetic"
@@ -1958,18 +2050,21 @@ Muốn nhanh hơn:
 ### 2. Baroque
 
 **Đặc điểm trực quan:**
+
 - Phong phú, nặng nề, kịch tính
 - Ánh sáng mạnh, bóng tối sâu
 - Chi tiết phức tạp, nhiều yếu tố
 - Cảm giác hoàng gia, cổ điển
 
 **Thích hợp cho:**
+
 - Chân dung, cảnh lịch sử
 - Cảm giác hoàng gia, nghiêm trang
 - Tôn giáo, thần thoại
 - Nội thất cổ điển
 
 **Content suggestions:**
+
 - "noble woman in ornate baroque dress"
 - "baroque portrait with rich jewels and fabrics"
 - "dramatic baroque church interior with light rays"
@@ -1981,18 +2076,21 @@ Muốn nhanh hơn:
 ### 3. Cubism
 
 **Đặc điểm trực quan:**
+
 - Hình học, góc cạnh, trừu tượng
 - Phân tách hình dạng thành các mặt phẳng
 - Nhiều lớp cảm nhận cùng lúc
 - Hiện đại, thực nghiệm
 
 **Thích hợp cho:**
+
 - Concept art, artwork hiện đại
 - Trừu tượng, tình cảm
 - Design, architecture
 - Tác phẩm thử nghiệm
 
 **Content suggestions:**
+
 - "abstract geometric portrait with fragmented planes"
 - "cubist still life with geometric shapes and angles"
 - "portrait in cubist style with multiple perspectives"
@@ -2004,18 +2102,21 @@ Muốn nhanh hơn:
 ### 4. Expressionism
 
 **Đặc điểm trực quan:**
+
 - Cảm xúc mạnh, sắc nét đột ngột
 - Màu sắc rực rỡ, không tự nhiên
 - Nét vẽ dạo động, tình cảm
 - Kịch tính, sâu sắc
 
 **Thích hợp cho:**
+
 - Cảm xúc, tâm trạng
 - Bức tranh cảm tính
 - Tác phẩm kịch tính
 - Illustration, concept art
 
 **Content suggestions:**
+
 - "emotional figure with bold expressive brushstrokes"
 - "twisted landscape with vibrant expressionist colors"
 - "expressionist portrait of inner turmoil and passion"
@@ -2027,18 +2128,21 @@ Muốn nhanh hơn:
 ### 5. Japanese Art
 
 **Đặc điểm trực quan:**
+
 - Tối giản, thanh lịch, truyền thống
 - Không gian âm, sắc độ nhẹ
 - Đối xứng, cân bằng
 - Thiên nhiên, tâm thần
 
 **Thích hợp cho:**
+
 - Phong cảnh Nhật, samurai
 - Anime style, manga
 - Thiên nhiên tối giản
 - Zen, tâm linh
 
 **Content suggestions:**
+
 - "samurai warrior in moonlit garden with cherry blossoms"
 - "serene temple landscape with misty mountains"
 - "minimalist nature scene in traditional Japanese style"
@@ -2109,11 +2213,13 @@ DEBUG=False
 ### Tối ưu hóa
 
 **Để tăng tốc độ:**
+
 1. Resize ảnh nhỏ hơn trước khi upload (giảm processing time)
 2. Sử dụng Groq API miễn phí (nhanh nhất)
 3. Cache model (load một lần, tái sử dụng)
 
 **Để tăng độ chính xác:**
+
 1. Upload ảnh rõ ràng thuộc một phong cách (không blurry)
 2. Nhập nội dung chi tiết, cụ thể
 3. Sử dụng tiếng Anh (LLaMA trained chủ yếu trên English)
@@ -2284,6 +2390,7 @@ git push origin feature/my-feature
 ```
 
 **Code style:**
+
 - Python: PEP 8 (use `black` for formatting)
 - JavaScript: ES6+, use Prettier
 - Comments: Tiếng Anh & Tiếng Việt đều được
@@ -2318,6 +2425,7 @@ prompt-hunter/
 ## 📈 Roadmap
 
 ### ✅ v1.0 (Current)
+
 - Style Hunter mode
 - Style Remix mode
 - Content relevance check
@@ -2326,6 +2434,7 @@ prompt-hunter/
 - Basic UI
 
 ### 🚀 v1.1 (Planned)
+
 - User history & favorites
 - 10+ additional art styles
 - Batch processing
@@ -2333,6 +2442,7 @@ prompt-hunter/
 - Better UI animations
 
 ### 🌟 v1.2 (Future)
+
 - Direct Stable Diffusion integration
 - Midjourney API sync
 - Community prompt sharing
@@ -2344,16 +2454,19 @@ prompt-hunter/
 ## 📚 Learning Resources
 
 ### Tutorials
+
 - [Stable Diffusion Prompting](https://huggingface.co/docs/diffusers)
 - [Art Styles Reference](https://en.wikipedia.org/wiki/Art_movements_and_styles)
 - [AI Image Generation Best Practices](https://promptingguide.ai/)
 
 ### Tools & Services
+
 - [Groq Console](https://console.groq.com) - Get API Key
 - [Stable Diffusion WebUI](https://github.com/AUTOMATIC1111/stable-diffusion-webui)
 - [Midjourney](https://midjourney.com) - Another AI Image Gen
 
 ### Models & Papers
+
 - [LLaMA 3.1](https://ai.meta.com/blog/meta-llama/)
 - [Stable Diffusion](https://github.com/replicate/cog-stable-diffusion)
 - [CNN for Image Classification](https://arxiv.org/abs/1512.03385)
@@ -2363,32 +2476,42 @@ prompt-hunter/
 ## ❓ FAQ
 
 ### Q1: Có thể training model riêng không?
+
 **A:** Có. Cần dataset ảnh theo phong cách. Sửa `constants.py` và retrain CNN model. Hướng dẫn chi tiết có trong `memory-bank/`.
 
 ### Q2: Tại sao API request chậm?
+
 **A:** Groq API có rate limit free tier. Nếu request quá nhiều, sẽ bị throttle. Mua premium hoặc đợi lúc traffic ít.
 
 ### Q3: Có cách lưu lịch sử không?
+
 **A:** Hiện tại không. Có thể:
+
 - Manual copy từng prompt
 - Screenshot kết quả
 - Mở browser DevTools → Network để xem API response
 
 ### Q4: Copy button không hoạt động?
+
 **A:** Kiểm tra:
+
 - Browser có support Clipboard API không (Chrome, Firefox, Safari OK)
 - HTTPS context (localhost OK, HTTP có hạn chế)
 - Browser permissions cho clipboard
 
 ### Q5: Prompt không tối ưu?
+
 **A:** Tips:
+
 - Nhập content chi tiết hơn
 - Sử dụng tiếng Anh (LLM trained trên English)
 - Có thể hand-edit prompt sau khi copy
 - Adjust Sampler/CFG/Steps trong Stable Diffusion
 
 ### Q6: Có API endpoint không?
+
 **A:** Có:
+
 - `/predict` - Phát hiện style
 - `/suggest-content` - Check content
 - `/generate-full-prompt` - Tạo prompt
@@ -2400,6 +2523,7 @@ Dùng từ client ngoài hoặc integ vào app khác.
 ## 📞 Support & Contact
 
 ### Get Help
+
 - 📖 Đọc README (file này)
 - 🔍 Xem troubleshooting section
 - 💬 GitHub Issues
@@ -2408,18 +2532,20 @@ Dùng từ client ngoài hoặc integ vào app khác.
 ### Report Issues
 
 Title: [Bug] Description
-Body: 
-  - Steps to reproduce
-  - Expected vs Actual
-  - Error message
-  - Browser/OS/Python version
-  - Screenshot
+Body:
+
+- Steps to reproduce
+- Expected vs Actual
+- Error message
+- Browser/OS/Python version
+- Screenshot
 
 ---
 
 ## 🙏 Credits
 
 ### Technologies Used
+
 - **TensorFlow** - Deep Learning framework
 - **Groq API** - Fast LLM inference
 - **Flask** - Web framework
@@ -2428,11 +2554,13 @@ Body:
 - **NumPy** - Array operations
 
 ### Inspiration
+
 - Stable Diffusion community
 - OpenAI DALL-E prompting guides
 - Midjourney best practices
 
 ### Thank You
+
 Cảm ơn tất cả những người contribute ideas, report bugs, và sử dụng Prompt-Hunter!
 
 ---
@@ -2474,5 +2602,4 @@ Nếu thích, hãy ⭐ star GitHub repo. Nếu có feedback, tạo Issue hoặc 
 
 Version: 1.0.0  
 Last Updated: November 2024  
-Repository: https://github.com/levy1101/prompt-hunter
-
+Repository: <https://github.com/levy1101/prompt-hunter>
